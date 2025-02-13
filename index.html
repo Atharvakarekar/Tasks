@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Score Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>📊 Student Score Analyzer</h1>
+        <button id="toggleTheme">🌙 Dark Mode</button>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Add Student</h2>
+            <form id="studentForm">
+                <input type="text" id="name" placeholder="Student Name" required>
+                <input type="number" id="math" placeholder="Math Score (0-100)" min="0" max="100" required>
+                <input type="number" id="science" placeholder="Science Score (0-100)" min="0" max="100" required>
+                <input type="number" id="english" placeholder="English Score (0-100)" min="0" max="100" required>
+                <button type="submit">➕ Add Student</button>
+            </form>
+            <p class="error" id="errorMessage"></p>
+        </section>
+
+        <section class="controls">
+            <input type="text" id="search" placeholder="🔍 Search by name..." onkeyup="searchStudent()">
+            <button onclick="sortByName()">🔠 Sort by Name</button>
+            <button onclick="sortByAverage()">📊 Sort by Average Score</button>
+        </section>
+
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Math</th>
+                        <th>Science</th>
+                        <th>English</th>
+                        <th>Average</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable"></tbody>
+            </table>
+        </section>
+
+        <section class="chart-container">
+            <canvas id="scoreChart"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Student Score Analyzer</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

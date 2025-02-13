@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Score Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Student Score Analyzer</h2>
+    <form id="studentForm">
+        <label for="name">Student Name:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="math">Math Score:</label>
+        <input type="number" id="math" min="0" max="100" required>
+        <br>
+        <label for="science">Science Score:</label>
+        <input type="number" id="science" min="0" max="100" required>
+        <br>
+        <label for="english">English Score:</label>
+        <input type="number" id="english" min="0" max="100" required>
+        <br>
+        <button type="submit">Add Student</button>
+    </form>
+    <p class="error" id="errorMessage"></p>
+    <br>
+    <button onclick="sortByName()">Sort by Name</button>
+    <button onclick="sortByAverage()">Sort by Average Score</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Math</th>
+                <th>Science</th>
+                <th>English</th>
+                <th>Average</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+    </table>
+    <script>
+        let students = [];
+        
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const math = Number(document.getElementById('math').value);
+            const science = Number(document.getElementById('science').value);
+            const english = Number(document.getElementById('english').value);
+            
+            if (!name || isNaN(math) || isNaN(science) || isNaN(english) || math < 0 || math > 100 || science < 0 || science > 100 || english < 0 || english > 100) {
+                document.getElementById('errorMessage').textContent = "Invalid input. Please enter valid data.";
+                return;
+            }
+            document.getElementById('errorMessage').textContent = "";
+            
+            const average = ((math + science + english) / 3).toFixed(2);
+            let grade = 'F';
+            if (average >= 90) grade = 'A';
+            else if (average >= 75) grade = 'B';
+            else if (average >= 50) grade = 'C';
+            
+            students.push({ name, math, science, english, average: parseFloat(average), grade });
+            displayStudents();
+        });
+        
+        function displayStudents() {
+            const table = document.getElementById('studentTable');
+            table.innerHTML = '';
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${student.name}</td>
+                                 <td>${student.math}</td>
+                                 <td>${student.science}</td>
+                                 <td>${student.english}</td>
+                                 <td>${student.average}</td>
+                                 <td>${student.grade}</td>`;
+                table.appendChild(row);
+            });
+        }
+        
+        function sortByName() {
+            students.sort((a, b) => a.name.localeCompare(b.name));
+            displayStudents();
+        }
+        
+        function sortByAverage() {
+            students.sort((a, b) => b.average - a.average);
+            displayStudents();
+        }
+    </script>
+</body>
+</html>
